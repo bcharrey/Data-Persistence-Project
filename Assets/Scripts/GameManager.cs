@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,5 +19,22 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    [System.Serializable]
+    class SaveData
+    {
+        public string playerName;
+    }
+
+    public void SaveName()
+    {
+        SaveData data = new SaveData();
+        data.playerName = playerName;
+
+        string json = JsonUtility.ToJson(data);
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+        Debug.Log(Application.persistentDataPath);
     }
 }
