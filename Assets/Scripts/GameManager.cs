@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public string playerName;
+    public string bestScorePlayerName;
     public int bestScore;
 
     private void Awake()
@@ -25,18 +26,32 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public string playerName;
+        public string bestScorePlayerName;
         public int bestScore;
     }
 
     public void SaveBestScore()
     {
         SaveData data = new SaveData();
-        data.playerName = playerName;
+        data.bestScorePlayerName = playerName;
         data.bestScore = bestScore;
 
         string json = JsonUtility.ToJson(data);
 
         File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadBestScore()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+            bestScorePlayerName = data.bestScorePlayerName;
+            bestScore = data.bestScore;
+        }
     }
 }
