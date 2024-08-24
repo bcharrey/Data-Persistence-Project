@@ -12,7 +12,6 @@ public class MenuUIHandler : MonoBehaviour
     public void StartNew()
     {
         GameManager.Instance.playerName = tmpInputField.text;
-        GameManager.Instance.SaveName();
 
         SceneManager.LoadScene(1);
     }
